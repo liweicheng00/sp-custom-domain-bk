@@ -1,0 +1,26 @@
+FROM python:3.8
+RUN useradd user
+
+
+WORKDIR /code
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY ./app /code/app
+
+ARG MONGODB_DB
+ENV MONGODB_DB $MONGODB_DB
+ARG MONGODB_HOST
+ENV MONGODB_HOST $MONGODB_HOST
+ARG MONGODB_USER
+ENV MONGODB_USER $MONGODB_USER
+ARG MONGODB_PASSWORD
+ENV MONGODB_PASSWORD $MONGODB_PASSWORD
+ARG MONGODB_CA_CERT
+ENV MONGODB_CA_CERT $MONGODB_CA_CERT
+ARG O2_REDIS_HOST
+ENV O2_REDIS_HOST $O2_REDIS_HOST
+ARG O2_REDIS_PORT
+ENV O2_REDIS_PORT $O2_REDIS_PORT
+
+USER user
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
