@@ -1,14 +1,7 @@
 fastapi==0.75.2
 python-dotenv==0.20.0
-web3==6.0.0b1
 uvicorn[standard]==0.17.6
-pymongo==4.1.1
-PyJWT==2.3.0
-pytest-cov==3.0.0
-python-multipart==0.0.5
-APScheduler===3.9.1
-aiohttp==3.8.1
-bleach==5.0.0
-aioredis==2.0.1
-pytest-asyncio==0.18.3
+pulumi>=3.0.0,<4.0.0
+pulumi-aws>=5.0.0,<6.0.0
+boto3==1.26.20
 
