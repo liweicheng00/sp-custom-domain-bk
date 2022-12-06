@@ -2,4 +2,6 @@ fastapi==0.75.2
 python-dotenv==0.20.0
 uvicorn[standard]==0.17.6
 boto3==1.26.20
+python-multipart
+
 
