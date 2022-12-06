@@ -1,9 +1,15 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.routers import cloud
 from pulumi import automation as auto
 
 app = FastAPI(redoc_url=None)
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(cloud.router)
 
 
