@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import cloud
-from pulumi import automation as auto
 
 app = FastAPI(redoc_url=None)
 app.add_middleware(
@@ -11,14 +10,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(cloud.router)
-
-
-def ensure_plugins():
-    ws = auto.LocalWorkspace()
-    ws.install_plugin("aws", "v4.0.0")
-
-
-ensure_plugins()
 
 
 @app.get("/")
