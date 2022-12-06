@@ -126,7 +126,8 @@ async def wait_for_delete_cloudfront_aliases(cloudfront_id, domain_name):
 
     cert = list(filter(lambda x: x.get('DomainName') == domain_name, cert_list))
     if cert:
-        if 'sp1.liweicheng00.link' in domain_name:
+        if settings.default_project_domain_name in domain_name:
+            # delete record for default_project_domain_name
             cert_value = acm.describe_certificate(CertificateArn=cert[0]["CertificateArn"])
             resource_record = cert_value.get('Certificate', {}).get('DomainValidationOptions', [{}])[0].get(
                 'ResourceRecord', {})
@@ -170,7 +171,7 @@ def get_custom_domains():
     result = []
     for dist in distribution_list:
         domain_name = dist.get("Comment")
-        if domain_name == "sp1.liweicheng00.link":
+        if domain_name == settings.default_project_domain_name:
             continue
 
         if not dist.get('Aliases', {}).get('Quantity'):
@@ -242,8 +243,8 @@ async def add_custom_domain(domain_name=Form(...)):
             'ResourceRecord', {})
         await asyncio.sleep(1)
 
-    # Automatically add CNAME record if domain on liweicheng00.link
-    if "sp1.liweicheng00.link" in domain_name:
+    # Automatically add CNAME record if domain on default_project_domain_name
+    if settings.default_project_domain_name in domain_name:
         route53.change_resource_record_sets(
             HostedZoneId=settings.hosted_zone_id,
             ChangeBatch=dict(
@@ -269,7 +270,6 @@ async def add_custom_domain(domain_name=Form(...)):
                 ]
             )
         )
-        # Automatically set cloudfront aliases for *.sp1.liweicheng00.link
         await wait_for_update_cloudfront_aliases(new_cloudfront.get("Distribution", {}).get("Id"), domain_name,
                                                  custom_domain_acm["CertificateArn"])
     return resource_record
