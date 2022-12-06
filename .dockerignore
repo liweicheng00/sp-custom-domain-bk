@@ -8,3 +8,4 @@ README-secret.md
 
 ca-certs
 .env
+.env.local

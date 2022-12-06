@@ -3,3 +3,4 @@ deploy
 .idea
 .DS_Store
 */__pycache__
+.env.local
