@@ -4,6 +4,8 @@
 pip install -r requirements.txt
 ```
 ## Local Run
+
+Update necessary secrets in `.env`.
 ### Docker-compose
 ```bash
 docker build -t backend .
